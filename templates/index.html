@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Stats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function updateProgramCats() {
+            var department = document.getElementById('department').value;
+            var programCats = {
+    'AMERICORPS PROGRAM': ['The Library VISTA Project', 'Digital Corps', 'Outreach'],
+    'COMMUNITY RESOURCES': ['Services and Referrals', 'Programming', 'Outreach'],
+    'COMMUNITY SPECIALISTS': ['Careers', 'Health & Wellness', 'Civic Engagement', 'Nonprofit', 'Small Business & Entrepreneurship', 'Services'],
+    'MOBILE SERVICES': ['Books to Go', 'Takeaway Books', 'Senior Services', 'Mobile Services Outreach', 'Bookmobile Stops'],
+    'OUTREACH OPERATIONS (MOJ & EB)': ['Outreach'],
+    'PEER PROGRAM': ['Peer Interactions', 'Peer Interactions by Gender', 'Peer Interactions by Race', 'Peer Interactions by Age'],
+    'REFUGEE & IMMIGRANT SERVICES & EMPOWERMENT': ['Promotion/Social Media', 'Outreach', 'Classes', 'Programs', 'Referrals', 'Volunteers', 'Voiance'],
+    'SENIOR PROGRAMMING': ['Programs', 'Services', 'Outreach']
+};
+
+var activityMap = {
+    'The Library VISTA Project': ['Volunteer Engagements', 'Training Sessions', 'Consultations'],
+    'Digital Corps': ['Classes Offered', 'Program Participants', 'Training Hours'],
+    'Outreach': ['Outreach Events', 'Program Participants', 'Community Interactions'],
+    'Services and Referrals': ['Patron Consultations', 'Referrals Made', 'Services Delivered'],
+    'Programming': ['Programs', 'Program Participants', 'Sessions'],
+    'Careers': ['Patron Consultations', 'Career Workshops', 'Job Fairs', 'Outreach Events', 'Participants'],
+    'Health & Wellness': ['Wellness Workshops', 'Health Services', 'Consultations', 'Programs', 'Program Participants'],
+    'Civic Engagement': ['Patron and Staff Consultations', 'Voter Registration Programs', 'Civic Workshops', 'Outreach Events', 'Participants'],
+    'Nonprofit': ['Nonprofit Consultations', 'Programs', 'Outreach Events', 'Participants'],
+    'Small Business & Entrepreneurship': ['Patron Consultations', 'Programs', 'Program Participants', 'Outreach Events', 'Participants'],
+    'Services': ['General Consultations', 'Assistance Provided', 'Workshops', 'Participants'],
+    'Books to Go': ['People Served', 'Books Circulated', 'Classrooms Visited'],
+    'Takeaway Books': ['Books Distributed', 'Outreach Events', 'Participants'],
+    'Senior Services': ['People Served-Library by Mail', 'People Served-Lobby Stops', 'Agencies Visited', 'Programs/Events', 'Program Participants', 'Books Circulated'],
+    'Mobile Services Outreach': ['Outreach Events', 'People Served', 'Circulation'],
+    'Bookmobile Stops': ['People', 'Books Circulated', 'Agencies Visited', 'Programs', 'Program Participants'],
+    'Peer Interactions': ['Hours Worked', 'Direct Patron Contact Hours', 'Duplicated # of Interactions', 'Crisis Support', 'De-escalation', 'Outreach', 'Resources Provided', 'UHBH Intake Support', 'Incident Reports', 'Other Support'],
+    'Peer Interactions by Gender': ['Male Interactions', 'Female Interactions', 'Non-Binary Interactions'],
+    'Peer Interactions by Race': ['White Interactions', 'Black Interactions', 'Hispanic Interactions', 'Asian Interactions', 'Other'],
+    'Peer Interactions by Age': ['Childr', 'Teens', '20s','30S', '40S', '50S', '60S','70S','80S','90S','TOTAL'],
+    'Promotion/Social Media': ['Newsletter Reach', 'Newsletter Engagements', 'Facebook Reach', 'Facebook Engagements', 'LinkedIn Unique Views', 'Instagram Reach'],
+    'Classes': ['Classes Held', 'Program Participants', 'Sessions Conducted'],
+    'Programs': ['Programs Offered', 'Program Participants', 'Sessions Held'],
+    'Referrals': ['Patrons Requesting Referrals', 'Referrals Made'],
+    'Volunteers': ['Volunteers Engaged', 'Volunteer Hours Contributed'],
+    'Voiance': ['Voiance Interpreting Calls', 'Participants Assisted']
+};
+
+
+            var programCatSelect = document.getElementById('program_cat');
+            programCatSelect.innerHTML = '<option value="">Select Program Category</option>';
+
+            var activities = document.getElementById('activity');
+            activities.innerHTML = '<option value="">Select Activity</option>';
+
+            if (department) {
+                var cats = programCats[department];
+                for (var i = 0; i < cats.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = cats[i];
+                    option.text = cats[i];
+                    programCatSelect.add(option);
+                }
+            }
+
+            programCatSelect.onchange = function() {
+                var selectedCat = this.value;
+                activities.innerHTML = '<option value="">Select Activity</option>';
+                if (selectedCat) {
+                    var acts = activityMap[selectedCat];
+                    for (var j = 0; j < acts.length; j++) {
+                        var option = document.createElement('option');
+                        option.value = acts[j];
+                        option.text = acts[j];
+                        activities.add(option);
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Program Stats</h1>
+        <form action="/submit" method="post">
+            <label for="department">Department:</label>
+            <select id="department" name="department" onchange="updateProgramCats()">
+                <option value="">Select Department</option>
+                <option value="AMERICORPS PROGRAM">AMERICORPS PROGRAM</option>
+                <option value="COMMUNITY RESOURCES">COMMUNITY RESOURCES</option>
+                <option value="COMMUNITY SPECIALISTS">COMMUNITY SPECIALISTS</option>
+                <option value="MOBILE SERVICES">MOBILE SERVICES</option>
+                <option value="OUTREACH OPERATIONS (MOJ & EB)">OUTREACH OPERATIONS (MOJ & EB)</option>
+                <option value="PEER PROGRAM">PEER PROGRAM</option>
+                <option value="REFUGEE & IMMIGRANT SERVICES & EMPOWERMENT">REFUGEE & IMMIGRANT SERVICES & EMPOWERMENT</option>
+                <option value="SENIOR PROGRAMMING">SENIOR PROGRAMMING</option>
+            </select><br><br>
+
+            <label for="program_cat">Program Category:</label>
+            <select id="program_cat" name="program_cat">
+                <option value="">Select Program Category</option>
+            </select><br><br>
+
+            <label for="activity">Activity:</label>
+            <select id="activity" name="activity">
+                <option value="">Select Activity</option>
+            </select><br><br>
+
+            <label for="stats">Stats:</label>
+            <input type="text" id="stats" name="stats" placeholder="Enter stats"><br><br>
+
+            <!-- <label for="month_year">Month-Year:</label>
+            <input type="text" id="month_year" name="month_year" placeholder="e.g., June 2024"><br><br> -->
+            <!-- <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date"><br><br> -->
+            <label for="month_year">Month-Year:</label>
+            <input type="month" id="month_year" name="month_year"><br><br>
+
+
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
