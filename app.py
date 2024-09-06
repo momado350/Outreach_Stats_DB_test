@@ -10,7 +10,7 @@ if ENV == 'dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/lexus2'
 else:
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@data-analysis-db.c6jqnuecx3su.us-east-2.rds.amazonaws.com:5432/outreach_db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:kcpl2021Dataaws@data-analysis-db.c6jqnuecx3su.us-east-2.rds.amazonaws.com:5432/outreach_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
