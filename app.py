@@ -19,7 +19,7 @@ app.app_context().push()
 
 # Models
 class OutreachStat(db.Model):
-    __tablename__ = 'outreach_stat'
+    __tablename__ = 'feedback'
     id = db.Column(db.Integer, primary_key=True)
     department = db.Column(db.String(100))
     program_cat = db.Column(db.String(100))
